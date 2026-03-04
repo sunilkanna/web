@@ -116,4 +116,12 @@ class AuthRepository {
     suspend fun submitFeedback(appointmentId: Int, patientId: Int, rating: Int, comments: String): Response<GenericResponse> {
         return api.submitFeedback(com.simats.genecare.data.model.FeedbackRequest(appointmentId, patientId, rating, comments))
     }
+
+    suspend fun getSystemSettings(): Response<com.simats.genecare.data.model.SystemSettingsResponse> {
+        return api.getSystemSettings()
+    }
+
+    suspend fun updateSystemSetting(key: String, value: String): Response<GenericResponse> {
+        return api.updateSystemSetting(com.simats.genecare.data.model.UpdateSystemSettingRequest(key, value))
+    }
 }

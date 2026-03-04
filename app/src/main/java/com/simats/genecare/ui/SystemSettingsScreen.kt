@@ -22,16 +22,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.simats.genecare.ui.theme.GenecareTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SystemSettingsScreen(navController: NavController) {
-    var maintenanceMode by remember { mutableStateOf(false) }
-    var emailNotifications by remember { mutableStateOf(true) }
-    var pushNotifications by remember { mutableStateOf(true) }
-    var darkMode by remember { mutableStateOf(false) }
-    var twoFactorAuth by remember { mutableStateOf(true) }
+    val viewModel: SystemSettingsViewModel = viewModel()
+    val settings by viewModel.settings.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    LaunchedEffect(error) {
+        error?.let {
+            android.widget.Toast.makeText(context, it, android.widget.Toast.LENGTH_LONG).show()
+            viewModel.clearError()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -46,79 +54,85 @@ fun SystemSettingsScreen(navController: NavController) {
             )
         }
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
-        ) {
-            // General Settings Section
-            SettingsSectionHeader("General")
-            SettingSwitchItem(
-                title = "Maintenance Mode",
-                subtitle = "Only admins can access the platform",
-                icon = Icons.Default.PowerSettingsNew,
-                checked = maintenanceMode,
-                onCheckedChange = { maintenanceMode = it }
-            )
-            
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Notifications Section
-            SettingsSectionHeader("Notifications")
-            SettingSwitchItem(
-                title = "Email Alerts",
-                subtitle = "Receive system alerts via email",
-                icon = Icons.Default.Notifications,
-                checked = emailNotifications,
-                onCheckedChange = { emailNotifications = it }
-            )
-            SettingSwitchItem(
-                title = "Push Notifications",
-                subtitle = "Receive updates on mobile devices",
-                icon = Icons.Default.Notifications,
-                checked = pushNotifications,
-                onCheckedChange = { pushNotifications = it }
-            )
-
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Appearance Section
-            SettingsSectionHeader("Appearance")
-            SettingSwitchItem(
-                title = "Dark Mode",
-                subtitle = "Enable dark theme for admin panel",
-                icon = Icons.Default.Palette,
-                checked = darkMode,
-                onCheckedChange = { darkMode = it }
-            )
-
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Security Section
-            SettingsSectionHeader("Security")
-            SettingSwitchItem(
-                title = "Two-Factor Authentication",
-                subtitle = "Require 2FA for all admin logins",
-                icon = Icons.Default.Security,
-                checked = twoFactorAuth,
-                onCheckedChange = { twoFactorAuth = it }
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Version Info
-            Card(
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
-                modifier = Modifier.fillMaxWidth()
+        if (isLoading && settings.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
             ) {
-                Row(modifier = Modifier.padding(16.dp)) {
-                    Icon(Icons.Default.Info, contentDescription = null, tint = Color(0xFF1976D2))
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text("GeneCare Platform", fontWeight = FontWeight.Bold)
-                        Text("Version 1.0.0 (Build 20260209)", style = MaterialTheme.typography.bodySmall)
+                // General Settings Section
+                SettingsSectionHeader("General")
+                SettingSwitchItem(
+                    title = "Maintenance Mode",
+                    subtitle = "Only admins can access the platform",
+                    icon = Icons.Default.PowerSettingsNew,
+                    checked = settings["maintenance_mode"] == "1",
+                    onCheckedChange = { viewModel.updateSetting("maintenance_mode", it) }
+                )
+                
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                // Notifications Section
+                SettingsSectionHeader("Notifications")
+                SettingSwitchItem(
+                    title = "Email Alerts",
+                    subtitle = "Receive system alerts via email",
+                    icon = Icons.Default.Notifications,
+                    checked = settings["email_alerts"] == "1",
+                    onCheckedChange = { viewModel.updateSetting("email_alerts", it) }
+                )
+                SettingSwitchItem(
+                    title = "Push Notifications",
+                    subtitle = "Receive updates on mobile devices",
+                    icon = Icons.Default.Notifications,
+                    checked = settings["push_notifications"] == "1",
+                    onCheckedChange = { viewModel.updateSetting("push_notifications", it) }
+                )
+
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                // Appearance Section
+                SettingsSectionHeader("Appearance")
+                SettingSwitchItem(
+                    title = "Dark Mode",
+                    subtitle = "Enable dark theme for admin panel",
+                    icon = Icons.Default.Palette,
+                    checked = settings["dark_mode"] == "1",
+                    onCheckedChange = { viewModel.updateSetting("dark_mode", it) }
+                )
+
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                // Security Section
+                SettingsSectionHeader("Security")
+                SettingSwitchItem(
+                    title = "Two-Factor Authentication",
+                    subtitle = "Require 2FA for all admin logins",
+                    icon = Icons.Default.Security,
+                    checked = settings["two_factor_auth"] == "1",
+                    onCheckedChange = { viewModel.updateSetting("two_factor_auth", it) }
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Version Info
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(modifier = Modifier.padding(16.dp)) {
+                        Icon(Icons.Default.Info, contentDescription = null, tint = Color(0xFF1976D2))
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text("GeneCare Platform", fontWeight = FontWeight.Bold)
+                            Text("Version 1.0.0 (Build 20260209)", style = MaterialTheme.typography.bodySmall)
+                        }
                     }
                 }
             }

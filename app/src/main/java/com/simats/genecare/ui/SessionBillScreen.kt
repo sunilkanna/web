@@ -77,7 +77,7 @@ fun SessionBillScreen(navController: NavController, appointmentId: Int = 1) {
                             orderId = data.orderId,
                             razorpayPaymentId = paymentData.paymentId,
                             signature = paymentData.signature ?: "",
-                            onSuccess = { navController.navigate("payment_success/${data.internalPaymentId}") }
+                            onSuccess = { navController.navigate("payment_success/$appointmentId") }
                         )
                     }
                 }

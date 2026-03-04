@@ -269,4 +269,12 @@ interface GeneCareApi {
     suspend fun markNotificationRead(
         @Body request: com.simats.genecare.data.model.MarkReadRequest
     ): Response<GenericResponse>
+
+    @GET("get_system_settings.php")
+    suspend fun getSystemSettings(): Response<com.simats.genecare.data.model.SystemSettingsResponse>
+
+    @POST("update_system_settings.php")
+    suspend fun updateSystemSetting(
+        @Body request: com.simats.genecare.data.model.UpdateSystemSettingRequest
+    ): Response<GenericResponse>
 }
