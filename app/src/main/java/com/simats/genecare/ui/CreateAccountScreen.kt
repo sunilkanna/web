@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.KeyboardOptions
@@ -119,6 +120,30 @@ fun CreateAccountScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+            // Logo Section
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = com.simats.genecare.R.drawable.saveetha_logo),
+                    contentDescription = "Saveetha Logo",
+                    modifier = Modifier.size(60.dp)
+                )
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = com.simats.genecare.R.drawable.logo),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.size(90.dp)
+                )
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = com.simats.genecare.R.drawable.engineer_to_excel),
+                    contentDescription = "Engineer to Excel Logo",
+                    modifier = Modifier.size(60.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(32.dp))
             Text("Create Account", style = MaterialTheme.typography.headlineLarge)
             Text("Join GeneCare to start your personalized health journey")
             Spacer(modifier = Modifier.height(32.dp))
@@ -234,6 +259,15 @@ fun CreateAccountScreen(
                     Text("Sign In")
                 }
             }
+
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(
+                text = "2026 @ Powered by SIMATS Engineering",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+            )
         }
     }
 }

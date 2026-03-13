@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -145,7 +147,32 @@ fun SignInScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .padding(horizontal = 24.dp)
+                .verticalScroll(rememberScrollState())
         ) {
+            // Logo Section
+            Spacer(modifier = Modifier.height(24.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = com.simats.genecare.R.drawable.saveetha_logo),
+                    contentDescription = "Saveetha Logo",
+                    modifier = Modifier.size(60.dp)
+                )
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = com.simats.genecare.R.drawable.logo),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.size(90.dp)
+                )
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = com.simats.genecare.R.drawable.engineer_to_excel),
+                    contentDescription = "Engineer to Excel Logo",
+                    modifier = Modifier.size(60.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(32.dp))
             Text(
                 text = "Welcome Back",
                 style = MaterialTheme.typography.headlineLarge,
@@ -278,6 +305,15 @@ fun SignInScreen(
                     )
                 )
             }
+
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(
+                text = "2026 @ Powered by SIMATS Engineering",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+            )
         }
     }
 }
