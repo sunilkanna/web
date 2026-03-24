@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
-        delay(3000L) // 3-second delay
+        delay(5000L) // 5-second delay
         
         val nextDestination = if (UserSession.isLoggedIn()) {
             when (UserSession.getUserType()) {
