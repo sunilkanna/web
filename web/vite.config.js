@@ -21,7 +21,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://172.20.10.2/genecare',
+        target: 'http://14.139.187.229:8081/jan2026/spic741/curogenea/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

@@ -57,11 +57,19 @@ const RegisterPage = () => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        let value = e.target.value;
+        if (e.target.name === 'full_name') {
+            value = value.replace(/[0-9]/g, '');
+        }
+        setFormData({ ...formData, [e.target.name]: value });
     };
 
     const handleQualificationChange = (e) => {
-        setQualificationData({ ...qualificationData, [e.target.name]: e.target.value });
+        let value = e.target.value;
+        if (e.target.name === 'doctor_name') {
+            value = value.replace(/[0-9]/g, '');
+        }
+        setQualificationData({ ...qualificationData, [e.target.name]: value });
     };
 
     const handleFileChange = (e) => {

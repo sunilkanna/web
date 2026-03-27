@@ -18,7 +18,15 @@ const ProfileSetupPage = () => {
     const [success, setSuccess] = useState(false);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        let value = e.target.value;
+        if (e.target.name === 'phone') {
+            const digits = value.replace(/\D/g, '');
+            if (digits.length > 0 && !['6', '7', '8', '9'].includes(digits[0])) {
+                return; // Ignore if first digit is not 6-9
+            }
+            value = digits.slice(0, 10);
+        }
+        setFormData({ ...formData, [e.target.name]: value });
     };
 
     const handleSubmit = async (e) => {
