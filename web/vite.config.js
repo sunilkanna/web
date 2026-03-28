@@ -23,7 +23,6 @@ export default defineConfig(({ command }) => ({
       '/api': {
         target: 'http://14.139.187.229:8017',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/jan2026/spic741/curogenea/'),
       },
     },
   },
