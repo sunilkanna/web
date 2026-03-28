@@ -40,7 +40,7 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   return (
     <AuthProvider>
-      <Router basename="/genecare-webapp">
+      <Router basename="/jan2026/spic741/curogenea/">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

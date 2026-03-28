@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/webpage/',
+  base: '/jan2026/spic741/curogenea/',
   plugins: [react()],
   esbuild: {
     loader: 'jsx',
@@ -21,9 +21,9 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://14.139.187.229:8081/jan2026/spic741/curogenea/',
+        target: 'http://14.139.187.229:8081',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/api/, '/jan2026/spic741/curogenea'),
       },
     },
   },
