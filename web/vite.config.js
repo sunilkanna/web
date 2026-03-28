@@ -22,9 +22,9 @@ export default defineConfig(({ command }) => ({
     host: "0.0.0.0",
     proxy: {
       '/api': {
-        target: 'http://14.139.187.229:8081',
+        target: 'http://14.139.187.229:8028',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/jan2026/spic741/curogenea/'),
+        rewrite: (path) => path.replace(/^\/api/, '/api/'),
       },
     },
   },
