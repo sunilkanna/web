@@ -5,6 +5,15 @@ export default defineConfig({
   base: '/', // change this only if deploying to subfolder
 
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
+  },
   esbuild: {
     loader: 'jsx',
     include: /src\/.*\.js$/,

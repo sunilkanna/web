@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # If the request is not already targeting the dist directory
+  RewriteCond %{REQUEST_URI} !^/dist/
+  
+  # Rewrite all requests to the dist directory
+  RewriteRule ^(.*)$ /dist/$1 [L]
+</IfModule>
