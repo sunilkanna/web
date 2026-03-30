@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  base: '/',
+export default defineConfig({
+  base: '/', // change this only if deploying to subfolder
+
   plugins: [react()],
   esbuild: {
     loader: 'jsx',
@@ -16,26 +16,21 @@ export default defineConfig(({ command }) => ({
         '.js': 'jsx',
       },
     },
-
   },
   server: {
     host: "0.0.0.0",
+    port: 8028,
+
     proxy: {
       '/api': {
         target: 'http://14.139.187.229:8081',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\//, '/jan2026/spic741/curogenea/'),
+        secure: false,
+
+        // Correct rewrite (handles both /api and /api/)
+        rewrite: (path) =>
+          path.replace(/^\/api/, '/jan2026/spic741/curogenea'),
       },
     },
   },
-  preview: {
-    host: "0.0.0.0",
-    proxy: {
-      '/api': {
-        target: 'http://14.139.187.229:8081',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\//, '/jan2026/spic741/curogenea/'),
-      },
-    },
-  },
-}))
+})
